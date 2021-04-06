@@ -3,7 +3,8 @@
 //  Shared
 //
 //  Created by Matthew Adas on 4/2/21.
-//
+//  Landau 15.4.1 Metropolis Algorithm Implementation
+
 // for hot start option search "initialStateTextString = "hot start"" and remove un-comment the block until picker is added
 
 // to work on animating spin flips:
