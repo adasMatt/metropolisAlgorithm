@@ -21,6 +21,10 @@
 		7FEECCFD2617916F00256209 /* IsingClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEECCF92617916F00256209 /* IsingClass.swift */; };
 		7FEECD062617958C00256209 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEECCB926178F4E00256209 /* ContentView.swift */; };
 		7FEECD0B2617958C00256209 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEECCB926178F4E00256209 /* ContentView.swift */; };
+		7FEECD15261E29B500256209 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEECD14261E29B500256209 /* DrawingView.swift */; };
+		7FEECD16261E29B500256209 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEECD14261E29B500256209 /* DrawingView.swift */; };
+		7FEECD17261E29B500256209 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEECD14261E29B500256209 /* DrawingView.swift */; };
+		7FEECD18261E29B500256209 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEECD14261E29B500256209 /* DrawingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +60,7 @@
 		7FEECCDE26178F4F00256209 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		7FEECCE026178F4F00256209 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7FEECCF92617916F00256209 /* IsingClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsingClass.swift; sourceTree = "<group>"; };
+		7FEECD14261E29B500256209 /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +114,7 @@
 				7FEECCB926178F4E00256209 /* ContentView.swift */,
 				7FEECCBA26178F4F00256209 /* Assets.xcassets */,
 				7FEECCF92617916F00256209 /* IsingClass.swift */,
+				7FEECD14261E29B500256209 /* DrawingView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -319,6 +325,7 @@
 				7FEECCE326178F4F00256209 /* ContentView.swift in Sources */,
 				7FEECCE126178F4F00256209 /* metropolisAlgorithmApp.swift in Sources */,
 				7FEECCFA2617916F00256209 /* IsingClass.swift in Sources */,
+				7FEECD15261E29B500256209 /* DrawingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +336,7 @@
 				7FEECCE426178F4F00256209 /* ContentView.swift in Sources */,
 				7FEECCE226178F4F00256209 /* metropolisAlgorithmApp.swift in Sources */,
 				7FEECCFB2617916F00256209 /* IsingClass.swift in Sources */,
+				7FEECD16261E29B500256209 /* DrawingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +347,7 @@
 				7FEECCFC2617916F00256209 /* IsingClass.swift in Sources */,
 				7FEECCD426178F4F00256209 /* Tests_iOS.swift in Sources */,
 				7FEECD062617958C00256209 /* ContentView.swift in Sources */,
+				7FEECD17261E29B500256209 /* DrawingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +358,7 @@
 				7FEECCFD2617916F00256209 /* IsingClass.swift in Sources */,
 				7FEECCDF26178F4F00256209 /* Tests_macOS.swift in Sources */,
 				7FEECD0B2617958C00256209 /* ContentView.swift in Sources */,
+				7FEECD18261E29B500256209 /* DrawingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
