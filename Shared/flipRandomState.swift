@@ -11,8 +11,9 @@ import SwiftUI
 
 class FlipRandomState: ObservableObject {
     //@Published var start = DispatchTime.now() //Start time
-    //@Published var stop = DispatchTime.now()  //Stop tim
+    @Published var stop = DispatchTime.now()  //Stop tim
     @Published var stateString = ""
+    @State var initialStateTextString = "cold start (see code for \"hot start\" need to add a picker)"
     
     // but should I call IsingClass here or should this just be part of IsingClass, used here: "var ES = ising.energyCalculation(S: state, N: N)"
     @State var ising = IsingClass()
@@ -93,10 +94,11 @@ class FlipRandomState: ObservableObject {
         
         // uncomment this for loop is for a "hot start" ...comment it out for a "cold start"
         /*
-         initialStateTextString = "hot start"
-         for _ in 1..<M {
+         // the Text() is not changing to this in content view :(
+        self.initialStateTextString = "hot start"
+         for _ in 0..<M {
             // sequence to choose random member of "numbers" array and multiply by -1
-            let nthMember = Int.random(in: 0..<ising.N-1)
+            let nthMember = Int.random(in: 0..<N)
             state[nthMember] *= -1
         }*/
         
@@ -124,7 +126,7 @@ class FlipRandomState: ObservableObject {
                     // keep updating state with each iteration of the loop
                     // ////////////////////////////////////////////////////////////
                     // not a plot for now but update array at least? Nope doesn't work, nothing shows until randomNumber() finishes
-                    self.stateString = "\(state)"
+                    //self.stateString = "\(state)"
                     //showCurrentState(stateString: stateString)
                     
                     // generate trial state by choosing 1 random electron at a time to flip
@@ -136,14 +138,16 @@ class FlipRandomState: ObservableObject {
                     let p = exp((ES-ET)/self.ising.k*temp)
                     let randnum = Double.random(in: 0...1)
                     if (p >= randnum) {
-                        DispatchQueue.main.async{
                         
+                        state = trialRandomFlip     // it changes the whole thing with every loop
+                        ES = ET                     // ES stays as is if probability of trial is too low
+                        
+                        DispatchQueue.main.async{
                             //Update Display With Started Queue Thread On the Main Thread
                             self.stateString = "\(state)"
                               
                         }
-                        //state = trialRandomFlip     // wait but it changes the whole thing with every loop?
-                        ES = ET                     // ES stays as is if p < randnum
+                        
                     }
                     /*
                      DispatchQueue.main.async{
@@ -154,8 +158,12 @@ class FlipRandomState: ObservableObject {
                      }
                      */
                     print(ES)
-                     
+                    //wait(timeout: 5)
+                    // delay by some microseconds
+                    usleep(75000)
+                    
                 }
+            print("it has finished")
 
             //integralArray.append(self.calculateMonteCarloIntegral(dimensions: 1, guesses: Int32(guesses), index: index))
         //})

@@ -21,20 +21,20 @@ struct ContentView: View {
     
     //@State var initialStateString = "[1, 1, 1, ...] (array generated when program runs)"
     //@State var stateString = "[1, 1, 1, ...] (array generated when program runs)"
-    @State var initialStateTextString = "cold start (see code for \"hot start\" need to add a picker)"
+    
     //@State var trialString = ""
     @State var energyString = " "
     @State var tempString = "100000000.0"
     @State var NString = "20"
     
-    @State var ising = IsingClass()
-    @State var flip = FlipRandomState()
+    @ObservedObject var ising = IsingClass()
+    @ObservedObject var flip = FlipRandomState()
     
     var body: some View {
         
         VStack(alignment: .leading) {
             
-            Text(initialStateTextString) // need a picker for cold or hot start
+            Text(flip.initialStateTextString) // need a picker for cold or hot start
                 .padding(.top)
                 .padding(.bottom, 0)
             TextEditor(text: $flip.stateString) // how do I show stateString as randomNumber() and ising.energyCalculation() are calculating?
@@ -100,7 +100,7 @@ struct ContentView: View {
                  
              
          //myIntegrator.integration(iterations: iterations, guesses: guesses, integrationQueue: integrationQueue )
-        flip.randomNumber(randomQueue: randomQueue, temp: tempString, N: NString, stateString: initialStateTextString )
+        flip.randomNumber(randomQueue: randomQueue, temp: tempString, N: NString, stateString: flip.stateString )
                  
     }
 
