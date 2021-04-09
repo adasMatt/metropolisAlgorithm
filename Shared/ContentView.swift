@@ -20,14 +20,15 @@ import SwiftUI
 struct ContentView: View {
     
     //@State var initialStateString = "[1, 1, 1, ...] (array generated when program runs)"
-    @State var stateString = "[1, 1, 1, ...] (array generated when program runs)"
+    //@State var stateString = "[1, 1, 1, ...] (array generated when program runs)"
     @State var initialStateTextString = "cold start (see code for \"hot start\" need to add a picker)"
     //@State var trialString = ""
     @State var energyString = " "
     @State var tempString = "100000000.0"
-    @State var NString = "1000"
+    @State var NString = "20"
     
     @State var ising = IsingClass()
+    @State var flip = FlipRandomState()
     
     var body: some View {
         
@@ -36,7 +37,7 @@ struct ContentView: View {
             Text(initialStateTextString) // need a picker for cold or hot start
                 .padding(.top)
                 .padding(.bottom, 0)
-            TextEditor(text: $stateString) // how do I show stateString as randomNumber() and ising.energyCalculation() are calculating?
+            TextEditor(text: $flip.stateString) // how do I show stateString as randomNumber() and ising.energyCalculation() are calculating?
              
             /*
              Text("randomly flipped state")
@@ -77,7 +78,7 @@ struct ContentView: View {
             
             
             // button
-            Button("Generate random states", action: randomNumber)
+            Button("Generate random states", action: startTheFlipping)
                 .padding()
         }
         
@@ -85,14 +86,27 @@ struct ContentView: View {
         
     }
     
+    //
+    func startTheFlipping() {
+                 
+         //let guesses = Int(myIntegrator.numberOfGuessesString) ?? 1000
+         
+         //let iterations = Int(myIntegrator.numberOfIterationsString) ?? 10
+         
+         //Create a Queue for the Calculation
+         //We do this here so we can make testing easier.
+         let randomQueue = DispatchQueue.init(label: "integrationQueue", qos: .userInitiated, attributes: .concurrent)
+         
+                 
+             
+         //myIntegrator.integration(iterations: iterations, guesses: guesses, integrationQueue: integrationQueue )
+        flip.randomNumber(randomQueue: randomQueue, temp: tempString, N: NString, stateString: initialStateTextString )
+                 
+    }
+
+    
     /*
-     func showCurrentState(stateString: String) -> String {
-         return stateString
-     }
-     */
-    
-    
-    func randomNumber() {
+     func randomNumber() {
         
         var state: [Double] = []
         let temp = Double(tempString)!
@@ -156,7 +170,7 @@ struct ContentView: View {
         
         //trialString = "\(trialRandomFlip)"
                 
-    }
+    }       */
     
 }
 

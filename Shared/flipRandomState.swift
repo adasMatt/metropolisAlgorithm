@@ -10,8 +10,10 @@ import SwiftUI
 
 
 class FlipRandomState: ObservableObject {
-    @Published var start = DispatchTime.now() //Start time
-    @Published var stop = DispatchTime.now()  //Stop tim
+    //@Published var start = DispatchTime.now() //Start time
+    //@Published var stop = DispatchTime.now()  //Stop tim
+    @Published var stateString = ""
+    
     // but should I call IsingClass here or should this just be part of IsingClass, used here: "var ES = ising.energyCalculation(S: state, N: N)"
     @State var ising = IsingClass()
     
@@ -68,8 +70,7 @@ class FlipRandomState: ObservableObject {
      }
      */
     
-    
-    func randomNumber(randomQueue: DispatchQueue, temp: String, N: String, stateString: String) -> String {
+    func randomNumber(randomQueue: DispatchQueue, temp: String, N: String, stateString: String) {
         
         var state: [Double] = []
         /*
@@ -77,7 +78,7 @@ class FlipRandomState: ObservableObject {
         let N = Int(NString)!               */
         let temp = Double(temp)!
         let N = Int(N)!
-        var stateString = stateString
+        
         
         //      Java ex: double[] state = new double[N]; double[] test = state;
         // populate "numbers" with N = 1,000 1's (not sure if N will ever change or be user selectable)
@@ -110,12 +111,12 @@ class FlipRandomState: ObservableObject {
         print("begin")
         
         // start random flipping
-        var start = DispatchTime.now() // starting time of the integration
+        //var start = DispatchTime.now() // starting time of the integration
         
         // formerly integrationQueue
         randomQueue.async{
             //DispatchQueue.concurrentPerform(iterations: Int(iterations), execute: { index in
-            DispatchQueue.concurrentPerform(iterations: 1, execute: { index in
+            //DispatchQueue.concurrentPerform(iterations: 1, execute: { index in
                 
                 for _ in 0..<M {
                     
@@ -123,7 +124,7 @@ class FlipRandomState: ObservableObject {
                     // keep updating state with each iteration of the loop
                     // ////////////////////////////////////////////////////////////
                     // not a plot for now but update array at least? Nope doesn't work, nothing shows until randomNumber() finishes
-                    stateString = "\(state)"
+                    self.stateString = "\(state)"
                     //showCurrentState(stateString: stateString)
                     
                     // generate trial state by choosing 1 random electron at a time to flip
@@ -135,16 +136,29 @@ class FlipRandomState: ObservableObject {
                     let p = exp((ES-ET)/self.ising.k*temp)
                     let randnum = Double.random(in: 0...1)
                     if (p >= randnum) {
-                        state = trialRandomFlip     // wait but it changes the whole thing with every loop?
+                        DispatchQueue.main.async{
+                        
+                            //Update Display With Started Queue Thread On the Main Thread
+                            self.stateString = "\(state)"
+                              
+                        }
+                        //state = trialRandomFlip     // wait but it changes the whole thing with every loop?
                         ES = ET                     // ES stays as is if p < randnum
                     }
-                    
+                    /*
+                     DispatchQueue.main.async{
+                     
+                         //Update Display With Started Queue Thread On the Main Thread
+                         self.outputText += "started index \(index)" + "\n"
+                           
+                     }
+                     */
                     print(ES)
                      
                 }
 
             //integralArray.append(self.calculateMonteCarloIntegral(dimensions: 1, guesses: Int32(guesses), index: index))
-        })
+        //})
         
         /*      This was not previously in randomQueue
              
@@ -183,8 +197,8 @@ class FlipRandomState: ObservableObject {
         // 5,2 -> 5 + (2 * 20) = 45
         // [0, 1] in 20x20 matrix -> 20th element
                 
+        }
+        
     }
-    
-}
     
 }
