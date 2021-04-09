@@ -23,19 +23,22 @@ class IsingClass: ObservableObject {
     func energyCalculation(S: [Double], N: Int) -> Double {
         var firstTerm = 0.0
         var secondTerm = 0.0
-        for i in 1..<(N-2) {
+        
+        for i in 0..<(N-2) {
             //numbers.append(1)
             firstTerm += Double(S[i] * S[i+1])
         }
         firstTerm *= -J
         
-        for i in 1..<(N-1) {
+        
+        for i in 0..<(N-1) {
             secondTerm += Double(S[i])
         }
         secondTerm *= -B*mu
         
+        
+        
         return (firstTerm + secondTerm)
-    
     }
 
 }

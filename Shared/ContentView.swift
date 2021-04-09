@@ -95,12 +95,12 @@ struct ContentView: View {
          
          //Create a Queue for the Calculation
          //We do this here so we can make testing easier.
-         let randomQueue = DispatchQueue.init(label: "integrationQueue", qos: .userInitiated, attributes: .concurrent)
+         let randomQueue = DispatchQueue.init(label: "randomQueue", qos: .userInitiated, attributes: .concurrent)
          
                  
              
          //myIntegrator.integration(iterations: iterations, guesses: guesses, integrationQueue: integrationQueue )
-        flip.randomNumber(randomQueue: randomQueue, temp: tempString, N: NString, stateString: flip.stateString )
+        flip.randomNumber(randomQueue: randomQueue, tempStr: tempString, NStr: NString, stateString: flip.stateString )
                  
     }
 

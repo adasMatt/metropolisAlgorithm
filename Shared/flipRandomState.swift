@@ -71,15 +71,14 @@ class FlipRandomState: ObservableObject {
      }
      */
     
-    func randomNumber(randomQueue: DispatchQueue, temp: String, N: String, stateString: String) {
+    func randomNumber(randomQueue: DispatchQueue, tempStr: String, NStr: String, stateString: String) {
         
         var state: [Double] = []
         /*
         let temp = Double(tempString)!
         let N = Int(NString)!               */
-        let temp = Double(temp)!
-        let N = Int(N)!
-        
+        let temp = Double(tempStr)!
+        let N = Int(NStr)!
         
         //      Java ex: double[] state = new double[N]; double[] test = state;
         // populate "numbers" with N = 1,000 1's (not sure if N will ever change or be user selectable)
@@ -88,9 +87,8 @@ class FlipRandomState: ObservableObject {
             state.append(-1)
         }
         
-        
         // multiply -1 to random members of numbers array using large number "M" for effective randomizer
-        let M = 10 * N // (not sure if N will ever change or be user selectable)
+        let M = 10 * N      // (not sure if N will ever change or be user selectable)
         
         // uncomment this for loop is for a "hot start" ...comment it out for a "cold start"
         /*
@@ -130,34 +128,34 @@ class FlipRandomState: ObservableObject {
                     //showCurrentState(stateString: stateString)
                     
                     // generate trial state by choosing 1 random electron at a time to flip
-                    let nthMember = Int.random(in: 0..<N-1) // choose random electron in trial
+                    let nthMember = Int.random(in: 0..<N) // choose random electron in trial
                     trialRandomFlip[nthMember] *= -1      // flip chosen electron in trial
                     
                     // fix state according to probability
                     let ET = self.ising.energyCalculation(S: trialRandomFlip, N: N)
-                    let p = exp((ES-ET)/self.ising.k*temp)
+                    
+                    let p = exp((ES-ET)/(self.ising.k*temp))
+                    //print("p = ",p)
                     let randnum = Double.random(in: 0...1)
+                    
                     if (p >= randnum) {
-                        
+                        //print("rand =", randnum, "p =", p)
                         state = trialRandomFlip     // it changes the whole thing with every loop
                         ES = ET                     // ES stays as is if probability of trial is too low
                         
                         DispatchQueue.main.async{
                             //Update Display With Started Queue Thread On the Main Thread
                             self.stateString = "\(state)"
-                              
                         }
-                        
+                        print(ES)
                     }
                     /*
                      DispatchQueue.main.async{
-                     
                          //Update Display With Started Queue Thread On the Main Thread
                          self.outputText += "started index \(index)" + "\n"
-                           
                      }
                      */
-                    print(ES)
+                    //print(ES)
                     //wait(timeout: 5)
                     // delay by some microseconds
                     usleep(75000)
