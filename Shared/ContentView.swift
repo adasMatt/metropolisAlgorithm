@@ -10,7 +10,7 @@
 
 // to work on animating spin flips:
 // search "plot initial state"
-// search "not a plot for now but update array at least?"
+
 // search "need a drawingView thingy someday"
 
 //
@@ -29,81 +29,109 @@ struct ContentView: View {
     
     @ObservedObject var ising = IsingClass()
     @ObservedObject var flip = FlipRandomState()
+    // copy pasting for drawing view part just for now, will need major changes
+    //@ObservedObject var monteCarlo = MonteCarloCircle(withData: true)
+    //@ObservedObject var monteCarlo = MonteCarloEToMinusX(withData: true)
+    @ObservedObject var stateAnimate = StateAnimationClass(withData: true)
     
     var body: some View {
+        HStack {
+            
+            VStack {
+                
+                 
+                Text("temp")
+                    .padding(.top)
+                    .padding(.bottom, 0)
+                TextField("temperature", text: $tempString)
+                    .padding(.horizontal)
+                    .frame(width: 100)
+                    .padding(.top, 0)
+                    .padding(.bottom, 30)
+                
+                Text("total electrons (N)")
+                    .padding(.bottom, 0)
+                TextField("number of electrons", text: $NString)
+                    .padding(.horizontal)
+                    .frame(width: 100)
+                    .padding(.top, 0)
+                    .padding(.bottom, 30)
+                
+                // button
+                Button("Generate random states", action: startTheFlipping)
+                    .padding()
+                
+                Text(flip.initialStateTextString) // need a picker for cold or hot start
+                    .padding(.top)
+                    .padding(.bottom, 0)
+                TextEditor(text: $flip.stateString)
+            
+            }
         
-        VStack(alignment: .leading) {
-            
-            Text(flip.initialStateTextString) // need a picker for cold or hot start
-                .padding(.top)
-                .padding(.bottom, 0)
-            TextEditor(text: $flip.stateString) // how do I show stateString as randomNumber() and ising.energyCalculation() are calculating?
-             
-            /*
-             Text("randomly flipped state")
-                 .padding(.top)
-                 .padding(.bottom, 0)
-             TextEditor(text: $trialString)
-             */
-            
-            // energy printout?
-        }
-        VStack {
-            Text("temp")
-                .padding(.top)
-                .padding(.bottom, 0)
-            TextField("temperature", text: $tempString)
-                .padding(.horizontal)
-                .frame(width: 100)
-                .padding(.top, 0)
-                .padding(.bottom, 30)
-            
-            Text("total electrons (N)")
-                .padding(.bottom, 0)
-            TextField("number of electrons", text: $NString)
-                .padding(.horizontal)
-                .frame(width: 100)
-                .padding(.top, 0)
-                .padding(.bottom, 30)
-            
             // need a drawingView thingy someday
-            /*
-             drawingView(redLayer:$monteCarlo.insideData, blueLayer: $monteCarlo.outsideData)
-                 .padding()
-                 .aspectRatio(1, contentMode: .fit)
-                 .drawingGroup()
-             // Stop the window shrinking to zero.
-             Spacer()
-             */
-            
-            
-            // button
-            Button("Generate random states", action: startTheFlipping)
-                .padding()
+             //
+             VStack {
+                drawingView(redLayer:$stateAnimate.spinUpData, blueLayer: $stateAnimate.spinDownData, xMin:$stateAnimate.xMin, xMax:$stateAnimate.xMax,yMin:$stateAnimate.yMin, yMax:$stateAnimate.yMax)
+                     .padding()
+                     .aspectRatio(1, contentMode: .fit)
+                     .drawingGroup()
+                 // Stop the window shrinking to zero.
+                 Spacer()
+             }
         }
-        
-            
-        
     }
     
-    //
     func startTheFlipping() {
-                 
-         //let guesses = Int(myIntegrator.numberOfGuessesString) ?? 1000
+        
+        //Create a Queue for the Calculation
+        //We do this here so we can make testing easier.
+        let randomQueue = DispatchQueue.init(label: "randomQueue", qos: .userInitiated, attributes: .concurrent)
          
-         //let iterations = Int(myIntegrator.numberOfIterationsString) ?? 10
-         
-         //Create a Queue for the Calculation
-         //We do this here so we can make testing easier.
-         let randomQueue = DispatchQueue.init(label: "randomQueue", qos: .userInitiated, attributes: .concurrent)
-         
-                 
-             
-         //myIntegrator.integration(iterations: iterations, guesses: guesses, integrationQueue: integrationQueue )
+        //myIntegrator.integration(iterations: iterations, guesses: guesses, integrationQueue: integrationQueue )
         flip.randomNumber(randomQueue: randomQueue, tempStr: tempString, NStr: NString, stateString: flip.stateString )
+        
+        stateAnimate.xMin = 0.0
+        stateAnimate.xMax = 1.0 // need it to change to 10N
+        stateAnimate.yMin = 0.0
+        stateAnimate.yMax = 1.0 // need it to change to N
+        
+        
                  
     }
 
+    /*
+     // might be what I need to modify for drawingView in this project
+     func calculateMonteCarloIntegral() -> Double {
+         
+         var errorCalc = 0.0
+         
+         monteCarlo.calculateIntegral() // I replaced calculatePI() in class MonteCarloEToMinusX
+         monteCarlo.xMin = 0.0
+         monteCarlo.xMax = 1.0
+         monteCarlo.yMin = 0.0
+         monteCarlo.yMax = 1.0
+         
+         totalGuessString = monteCarlo.totalGuessesString
+         
+         integralString =  monteCarlo.integralString
+         
+         // determine how the error changes as a function of N
+         let e_MinusXIntegral = monteCarlo.pi
+         let actualEMinus_xIntegral = -exp(-1.0) + exp(0.0)
+         
+         var numerator = e_MinusXIntegral - actualEMinus_xIntegral
+         if(numerator == 0.0) {numerator = 1.0E-16}
+         
+         errorCalc = log10(abs(numerator)/actualEMinus_xIntegral)
+     
+         error = "\(errorCalc)"
+         
+         return errorCalc
+         
+     }
+     */
+    
+    
     
     /*
      func randomNumber() {
@@ -143,13 +171,6 @@ struct ContentView: View {
         print("begin")
         for _ in 1..<M {
             
-            // plot initial state
-            // keep updating state with each iteration of the loop
-            // ////////////////////////////////////////////////////////////
-            // not a plot for now but update array at least? Nope doesn't work, nothing shows until randomNumber() finishes
-            stateString = "\(state)"
-            //showCurrentState(stateString: stateString)
-            
             // generate trial state by choosing 1 random electron at a time to flip
             let nthMember = Int.random(in: 0..<N-1) // choose random electron in trial
             trialRandomFlip[nthMember] *= -1      // flip chosen electron in trial
@@ -161,15 +182,10 @@ struct ContentView: View {
             if (p >= randnum) {
                 state = trialRandomFlip     // wait but it changes the whole thing with every loop?
                 ES = ET                     // ES stays as is if p < randnum
-        
             }
-            
             print(ES)
-             
         }
-        
         //trialString = "\(trialRandomFlip)"
-                
     }       */
     
 }

@@ -17,6 +17,7 @@ class FlipRandomState: ObservableObject {
     
     // but should I call IsingClass here or should this just be part of IsingClass, used here: "var ES = ising.energyCalculation(S: state, N: N)"
     @State var ising = IsingClass()
+    @ObservedObject var stateAnimate = StateAnimationClass(withData: true)
     
      /* should correspond to my randomNumber function
      func integration(iterations: Int, guesses: Int, integrationQueue: DispatchQueue){
@@ -74,9 +75,6 @@ class FlipRandomState: ObservableObject {
     func randomNumber(randomQueue: DispatchQueue, tempStr: String, NStr: String, stateString: String) {
         
         var state: [Double] = []
-        /*
-        let temp = Double(tempString)!
-        let N = Int(NString)!               */
         let temp = Double(tempStr)!
         let N = Int(NStr)!
         
@@ -105,27 +103,24 @@ class FlipRandomState: ObservableObject {
         //initialStateString = "\(shuffledNumbers)"
         var ES = ising.energyCalculation(S: state, N: N)
         
-        
         // apply randomizer again to initial state
         var trialRandomFlip = state
         print("begin")
         
-        // start random flipping
-        //var start = DispatchTime.now() // starting time of the integration
+        // Start random flipping
+        // var start = DispatchTime.now() // starting time of the integration
         
-        // formerly integrationQueue
-        randomQueue.async{
+        randomQueue.async{          // formerly integrationQueue
             //DispatchQueue.concurrentPerform(iterations: Int(iterations), execute: { index in
             //DispatchQueue.concurrentPerform(iterations: 1, execute: { index in
-                
-                for _ in 0..<M {
+                for n in 0..<M {
                     
-                    // plot initial state
+                    // plot initial state?
                     // keep updating state with each iteration of the loop
                     // ////////////////////////////////////////////////////////////
-                    // not a plot for now but update array at least? Nope doesn't work, nothing shows until randomNumber() finishes
-                    //self.stateString = "\(state)"
-                    //showCurrentState(stateString: stateString)
+                    // not a plot for now but update array at least
+                    // plotState() takes [state] and uses it to make y-points, n is the x-point for all of those y-points :)
+                    self.stateAnimate.plotState(state: state, n: Double(n))
                     
                     // generate trial state by choosing 1 random electron at a time to flip
                     let nthMember = Int.random(in: 0..<N) // choose random electron in trial
@@ -147,7 +142,7 @@ class FlipRandomState: ObservableObject {
                             //Update Display With Started Queue Thread On the Main Thread
                             self.stateString = "\(state)"
                         }
-                        print(ES)
+                        //print(ES)
                     }
                     /*
                      DispatchQueue.main.async{
@@ -158,10 +153,110 @@ class FlipRandomState: ObservableObject {
                     //print(ES)
                     //wait(timeout: 5)
                     // delay by some microseconds
-                    usleep(75000)
+                    usleep(7500) // add a zero for a more readable speed at lower N
                     
                 }
-            print("it has finished")
+            print("it has finished, state at equilibrium: \(state)")
+            
+            // average domain size
+            // count + in a row, count - in a row, average size
+            // probably just make it into an observable object class right
+            
+            var counted = 0
+            var domainSizesArr: [Int] = []
+            
+            var modArr = state         // modArr probably needs to start empty actually, and set equal to state either after or during the randomNumber function
+            
+            var lenModArr = modArr.count    // changes each time something is counted in modArr/finalArray ...yea idk what this will need to be changed to within the class yet
+
+            //func countPosFunc(funcArr: [Int]) -> (Int, [Int]) {
+            func countPosFunc(funcArr: [Double]) -> [Double] {
+                counted = 0                     // reset to 0 each time the function runs
+                let N = funcArr.count
+                var modFinalArray: [Double] = []   // I mean I want to throw it out each time so I can generate a new one each time maybe?
+
+                for item in (0...N-1) {
+                    if funcArr[item] == 1 {
+                        counted += 1
+                        //totalCount += 1         // add to global variable totalCount
+                    }
+                    else {break}                // break the for loop and return counted instances of consecutive -1
+                }
+
+                // discard the array members already examined?
+                
+                if counted == N {return [0]} // do not continue reducing modArray if it is on it's final domain
+                for item in (counted...N-1) {
+                    modFinalArray.append(funcArr[item]) //?
+                }
+                lenModArr = modFinalArray.count
+                //print(modFinalArray)
+                return modFinalArray
+            }
+
+            func countNegFunc(funcArr: [Double]) -> [Double] {
+                counted = 0
+                let N = funcArr.count
+                var modFinalArray: [Double] = []
+
+                for item in (0...N-1) {
+                    if funcArr[item] == -1 {
+                        counted += 1
+                        //totalCount += 1
+                    }
+                    else {break}
+                }
+                
+                if counted == N {return [0]}
+                for item in (counted...N-1){
+                    modFinalArray.append(funcArr[item])
+                }
+                lenModArr = modFinalArray.count
+                //print(modFinalArray)
+                return modFinalArray
+            }
+
+            while lenModArr > 1 { // problem if I have a lonely spin at the very end, or maybe not since I'm typically working with large N anyway? Can't I afford to lose that last lonely spin?
+                //print(lenModArr)
+                modArr = countNegFunc(funcArr: modArr)
+                if counted > 0 {domainSizesArr.append(counted)} //  obviously I only want to append non-zero size domains
+                //print(modArr, counted)
+                //print(lenModArr)
+                modArr = countPosFunc(funcArr: modArr)
+                if counted > 0 {domainSizesArr.append(counted)}
+                //print(modArr, counted, totalCount)
+                
+            }
+            print("sizes of domains: \(domainSizesArr)")
+            
+            // avg domain size
+            // sum Of domains is just the length of the state array of course
+            // is there still an issue here carried over from the possible missing lonely spin?
+            let lengthOfDomainSizeArr = domainSizesArr.count
+            let sumOfDomain = state.count
+            let avgDomain = sumOfDomain / lengthOfDomainSizeArr
+            
+            print("avg domain size: \(avgDomain)")
+            
+            
+            /*
+            modArr = countPosFunc(funcArr: modArr)
+            //print(modArr)
+
+            modArr = countNegFunc(funcArr: modArr)
+            print(modArr, counted)
+
+            modArr = countPosFunc(funcArr: modArr)
+            print(modArr, counted)
+
+            modArr = countNegFunc(funcArr: modArr)
+            print(modArr, counted)*/
+
+            
+            
+            
+            
+            
 
             //integralArray.append(self.calculateMonteCarloIntegral(dimensions: 1, guesses: Int32(guesses), index: index))
         //})

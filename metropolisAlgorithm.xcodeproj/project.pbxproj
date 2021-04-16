@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F42CCE22627661B007703FA /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F42CCE12627661B007703FA /* BoundingBox.swift */; };
+		7F42CCE32627661B007703FA /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F42CCE12627661B007703FA /* BoundingBox.swift */; };
+		7F42CCE42627661B007703FA /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F42CCE12627661B007703FA /* BoundingBox.swift */; };
+		7F42CCE52627661B007703FA /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F42CCE12627661B007703FA /* BoundingBox.swift */; };
+		7F42CCEB2627684E007703FA /* StateAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F42CCEA2627684E007703FA /* StateAnimation.swift */; };
+		7F42CCEC2627684E007703FA /* StateAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F42CCEA2627684E007703FA /* StateAnimation.swift */; };
+		7F42CCED2627684E007703FA /* StateAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F42CCEA2627684E007703FA /* StateAnimation.swift */; };
+		7F42CCEE2627684E007703FA /* StateAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F42CCEA2627684E007703FA /* StateAnimation.swift */; };
 		7FEECCD426178F4F00256209 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEECCD326178F4F00256209 /* Tests_iOS.swift */; };
 		7FEECCDF26178F4F00256209 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEECCDE26178F4F00256209 /* Tests_macOS.swift */; };
 		7FEECCE126178F4F00256209 /* metropolisAlgorithmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEECCB826178F4E00256209 /* metropolisAlgorithmApp.swift */; };
@@ -49,6 +57,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7F42CCE12627661B007703FA /* BoundingBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundingBox.swift; sourceTree = "<group>"; };
+		7F42CCEA2627684E007703FA /* StateAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateAnimation.swift; sourceTree = "<group>"; };
 		7FEECCB826178F4E00256209 /* metropolisAlgorithmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = metropolisAlgorithmApp.swift; sourceTree = "<group>"; };
 		7FEECCB926178F4E00256209 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7FEECCBA26178F4F00256209 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -119,6 +129,8 @@
 				7FEECCB926178F4E00256209 /* ContentView.swift */,
 				7FEECCBA26178F4F00256209 /* Assets.xcassets */,
 				7FEECCF92617916F00256209 /* IsingClass.swift */,
+				7F42CCEA2627684E007703FA /* StateAnimation.swift */,
+				7F42CCE12627661B007703FA /* BoundingBox.swift */,
 				7FEECD14261E29B500256209 /* DrawingView.swift */,
 				7FEECD262620BAC300256209 /* flipRandomState.swift */,
 			);
@@ -330,7 +342,9 @@
 			files = (
 				7FEECCE326178F4F00256209 /* ContentView.swift in Sources */,
 				7FEECCE126178F4F00256209 /* metropolisAlgorithmApp.swift in Sources */,
+				7F42CCEB2627684E007703FA /* StateAnimation.swift in Sources */,
 				7FEECCFA2617916F00256209 /* IsingClass.swift in Sources */,
+				7F42CCE22627661B007703FA /* BoundingBox.swift in Sources */,
 				7FEECD272620BAC300256209 /* flipRandomState.swift in Sources */,
 				7FEECD15261E29B500256209 /* DrawingView.swift in Sources */,
 			);
@@ -342,7 +356,9 @@
 			files = (
 				7FEECCE426178F4F00256209 /* ContentView.swift in Sources */,
 				7FEECCE226178F4F00256209 /* metropolisAlgorithmApp.swift in Sources */,
+				7F42CCEC2627684E007703FA /* StateAnimation.swift in Sources */,
 				7FEECCFB2617916F00256209 /* IsingClass.swift in Sources */,
+				7F42CCE32627661B007703FA /* BoundingBox.swift in Sources */,
 				7FEECD282620BAC300256209 /* flipRandomState.swift in Sources */,
 				7FEECD16261E29B500256209 /* DrawingView.swift in Sources */,
 			);
@@ -354,7 +370,9 @@
 			files = (
 				7FEECCFC2617916F00256209 /* IsingClass.swift in Sources */,
 				7FEECCD426178F4F00256209 /* Tests_iOS.swift in Sources */,
+				7F42CCED2627684E007703FA /* StateAnimation.swift in Sources */,
 				7FEECD062617958C00256209 /* ContentView.swift in Sources */,
+				7F42CCE42627661B007703FA /* BoundingBox.swift in Sources */,
 				7FEECD292620BAC300256209 /* flipRandomState.swift in Sources */,
 				7FEECD17261E29B500256209 /* DrawingView.swift in Sources */,
 			);
@@ -366,7 +384,9 @@
 			files = (
 				7FEECCFD2617916F00256209 /* IsingClass.swift in Sources */,
 				7FEECCDF26178F4F00256209 /* Tests_macOS.swift in Sources */,
+				7F42CCEE2627684E007703FA /* StateAnimation.swift in Sources */,
 				7FEECD0B2617958C00256209 /* ContentView.swift in Sources */,
+				7F42CCE52627661B007703FA /* BoundingBox.swift in Sources */,
 				7FEECD2A2620BAC300256209 /* flipRandomState.swift in Sources */,
 				7FEECD18261E29B500256209 /* DrawingView.swift in Sources */,
 			);
