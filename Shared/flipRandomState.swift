@@ -72,11 +72,12 @@ class FlipRandomState: ObservableObject {
      }
      */
     
-    func randomNumber(randomQueue: DispatchQueue, tempStr: String, NStr: String, stateString: String) {
+    func randomNumber(randomQueue: DispatchQueue, tempStr: String, NStr: String, stateString: String) -> Double {
         
         var state: [Double] = []
         let temp = Double(tempStr)!
         let N = Int(NStr)!
+        var box = 0.0
         
         //      Java ex: double[] state = new double[N]; double[] test = state;
         // populate "numbers" with N = 1,000 1's (not sure if N will ever change or be user selectable)
@@ -120,7 +121,7 @@ class FlipRandomState: ObservableObject {
                     // ////////////////////////////////////////////////////////////
                     // not a plot for now but update array at least
                     // plotState() takes [state] and uses it to make y-points, n is the x-point for all of those y-points :)
-                    self.stateAnimate.plotState(state: state, n: Double(n))
+                    box = self.stateAnimate.plotState(state: state, n: Double(n))
                     
                     // generate trial state by choosing 1 random electron at a time to flip
                     let nthMember = Int.random(in: 0..<N) // choose random electron in trial
@@ -239,64 +240,16 @@ class FlipRandomState: ObservableObject {
             print("avg domain size: \(avgDomain)")
             
             
-            /*
-            modArr = countPosFunc(funcArr: modArr)
-            //print(modArr)
-
-            modArr = countNegFunc(funcArr: modArr)
-            print(modArr, counted)
-
-            modArr = countPosFunc(funcArr: modArr)
-            print(modArr, counted)
-
-            modArr = countNegFunc(funcArr: modArr)
-            print(modArr, counted)*/
-            
-            
-            
-            
             //integralArray.append(self.calculateMonteCarloIntegral(dimensions: 1, guesses: Int32(guesses), index: index))
         //})
-        
-        /*      This was not previously in randomQueue
-             
-             for _ in 0..<M {
-                 
-                 // plot initial state
-                 // keep updating state with each iteration of the loop
-                 // ////////////////////////////////////////////////////////////
-                 // not a plot for now but update array at least? Nope doesn't work, nothing shows until randomNumber() finishes
-                 stateString = "\(state)"
-                 //showCurrentState(stateString: stateString)
-                 
-                 // generate trial state by choosing 1 random electron at a time to flip
-                 let nthMember = Int.random(in: 0..<N-1) // choose random electron in trial
-                 trialRandomFlip[nthMember] *= -1      // flip chosen electron in trial
-                 
-                 // fix state according to probability
-                 let ET = ising.energyCalculation(S: trialRandomFlip, N: N)
-                 let p = exp((ES-ET)/ising.k*temp)
-                 let randnum = Double.random(in: 0...1)
-                 if (p >= randnum) {
-                     state = trialRandomFlip     // wait but it changes the whole thing with every loop?
-                     ES = ET                     // ES stays as is if p < randnum
-                 }
-                 
-                 print(ES)
-                  
-             }
-             */
-        
-        
-        //trialString = "\(trialRandomFlip)"
-        
+          
         // ex: 20x20 array
         // value [i,j] in 1D array = value[i + (j * number of elements in a row)]
         // 5,2 -> 5 + (2 * 20) = 45
         // [0, 1] in 20x20 matrix -> 20th element
                 
         }
-        
+        return box
     }
     
 }
