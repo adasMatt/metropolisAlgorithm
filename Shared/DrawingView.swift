@@ -27,7 +27,9 @@ struct drawingView: View {
             drawIntegral(drawingPoints: blueLayer, xMin: xMin,xMax: xMax, yMin: yMin, yMax: yMax )
                 .stroke(Color.blue)
         }
-        .background(Color.white)
+        //.fixedSize(horizontal: true, vertical: true)
+        //.frame(width: 200.0, height: 20.0)
+        .background(Color.gray)
         .aspectRatio(1, contentMode: .fill)
         
     }
@@ -66,15 +68,18 @@ struct drawIntegral: Shape {
         
         // Create the Path for the display
         
+        //print(rect.height, rect.width)
+        
         var path = Path()
         for item in drawingPoints {
-                
+            
             let y = -(item.yPoint-yMin)/(yMax-yMin)*Double(rect.height)+Double(rect.height)
             let x = (item.xPoint-xMin)/(xMax-xMin)*Double(rect.width)
             
             // path.addRect(CGRect(x: item.xPoint*Double(scale)+Double(center.x), y: item.yPoint*Double(scale)+Double(center.y), width: 1.0 , height: 1.0))
             path.addRect(CGRect(x: x, y: y, width: 1.0 , height: 1.0))
-                       
+                
+            //print(x,y)
         }
 
 

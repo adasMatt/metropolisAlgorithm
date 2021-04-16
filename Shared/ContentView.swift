@@ -24,8 +24,8 @@ struct ContentView: View {
     
     //@State var trialString = ""
     @State var energyString = " "
-    @State var tempString = "100000000.0"
-    @State var NString = "20"
+    @State var tempString = "1.0"
+    @State var numElectronString = "20"
     
     @ObservedObject var ising = IsingClass()
     @ObservedObject var flip = FlipRandomState()
@@ -39,7 +39,6 @@ struct ContentView: View {
             
             VStack {
                 
-                 
                 Text("temp")
                     .padding(.top)
                     .padding(.bottom, 0)
@@ -51,7 +50,7 @@ struct ContentView: View {
                 
                 Text("total electrons (N)")
                     .padding(.bottom, 0)
-                TextField("number of electrons", text: $NString)
+                TextField("number of electrons", text: $numElectronString)
                     .padding(.horizontal)
                     .frame(width: 100)
                     .padding(.top, 0)
@@ -60,6 +59,8 @@ struct ContentView: View {
                 // button
                 Button("Generate random states", action: startTheFlipping)
                     .padding()
+                Button("get", action: printValue)
+                    .padding()
                 
             }
         
@@ -67,9 +68,12 @@ struct ContentView: View {
              //
             VStack {
                 drawingView(redLayer: $stateAnimate.spinUpData, blueLayer: $stateAnimate.spinDownData, xMin:$stateAnimate.xMin, xMax:$stateAnimate.xMax,yMin:$stateAnimate.yMin, yMax:$stateAnimate.yMax)
-                     .padding()
-                     .aspectRatio(1, contentMode: .fit)
-                     .drawingGroup()
+                    //.fixedSize(horizontal: true, vertical: true)
+                    //.frame(width: 200.0, height: 20.0)
+                    .padding()
+                    .aspectRatio(1, contentMode: .fit)
+                    .drawingGroup()
+                    
                  // Stop the window shrinking to zero.
                  Spacer()
                 
@@ -85,7 +89,17 @@ struct ContentView: View {
         }
     }
     
+    func printValue(){
+        
+        for item in stateAnimate.spinUpData{
+            print(item)
+        }
+    }
+    
     func startTheFlipping() {
+        
+        stateAnimate.spinDownData = []
+        stateAnimate.spinUpData = []
         
         //Create a Queue for the Calculation
         //We do this here so we can make testing easier.
@@ -94,11 +108,12 @@ struct ContentView: View {
         //myIntegrator.integration(iterations: iterations, guesses: guesses, integrationQueue: integrationQueue )
         
         stateAnimate.xMin = 0.0
-        stateAnimate.xMax = 10.0*Double(NString)!
+        stateAnimate.xMax = 10.0*Double(numElectronString)!
         stateAnimate.yMin = 0.0
-        stateAnimate.yMax = Double(NString)!
+        stateAnimate.yMax = Double(numElectronString)!
         
-        flip.randomNumber(randomQueue: randomQueue, tempStr: tempString, NStr: NString, stateString: flip.stateString )
+        flip.stateAnimate = self.stateAnimate
+        flip.randomNumber(randomQueue: randomQueue, tempStr: tempString, NStr: numElectronString, stateString: flip.stateString )
         
                  
     }

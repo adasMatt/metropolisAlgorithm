@@ -14,16 +14,17 @@ class StateAnimationClass: NSObject, ObservableObject {
     @Published var spinUpData = [(xPoint: Double, yPoint: Double)]()
     @Published var spinDownData = [(xPoint: Double, yPoint: Double)]()
     //@ObservedObject var presentState = FlipRandomState()
-    
+   
+
     //@Published var insideData = [(xPoint: Double, yPoint: Double)]()
     //@Published var outsideData = [(xPoint: Double, yPoint: Double)]()
     //@Published var totalGuessesString = ""
     //@Published var guessesString = ""
     //@Published var piString = ""
     @Published var xMin = 0.0
-    @Published var xMax = 0.0
+    @Published var xMax = 100.0
     @Published var yMin = 0.0
-    @Published var yMax = 0.0
+    @Published var yMax = 100.0
     //@Published var errorCalc = 0.0
     //@Published var functionCheck = 0.0
     
@@ -34,10 +35,13 @@ class StateAnimationClass: NSObject, ObservableObject {
         
         super.init()
         
+       // spinUpData = [(1.0, 5.0)]
+        //spinDownData = [(3.5, 6.5), (4.0, 6.5)]
+        
+        print("initialized")
+        
         spinUpData = []
         spinDownData = []
-        //insideData = []
-        //outsideData = []
     }
     
     func plotState (state: [Double], n: Double) -> Double {
@@ -87,7 +91,10 @@ class StateAnimationClass: NSObject, ObservableObject {
         //should go up to x = 199 for N = 200? but it's only going to x = 198, when I take state.count-1 -> state.count it fails
         spinUpData.append(contentsOf: spinUpPoints)
         spinDownData.append(contentsOf: spinDownPoints)
-        
+//        
+//        for item in self.spinUpData {
+//        print(item)
+//        }
         //Append the points to the arrays needed for the displays
         //Don't attempt to draw more than 250,000 points to keep the display updating speed reasonable.
         
