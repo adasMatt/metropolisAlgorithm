@@ -61,23 +61,27 @@ struct ContentView: View {
                 Button("Generate random states", action: startTheFlipping)
                     .padding()
                 
-                Text(flip.initialStateTextString) // need a picker for cold or hot start
-                    .padding(.top)
-                    .padding(.bottom, 0)
-                TextEditor(text: $flip.stateString)
-            
             }
         
             // need a drawingView thingy someday
              //
-             VStack {
-                drawingView(redLayer:$stateAnimate.spinUpData, blueLayer: $stateAnimate.spinDownData, xMin:$stateAnimate.xMin, xMax:$stateAnimate.xMax,yMin:$stateAnimate.yMin, yMax:$stateAnimate.yMax)
+            VStack {
+                drawingView(redLayer: $stateAnimate.spinUpData, blueLayer: $stateAnimate.spinDownData, xMin:$stateAnimate.xMin, xMax:$stateAnimate.xMax,yMin:$stateAnimate.yMin, yMax:$stateAnimate.yMax)
                      .padding()
                      .aspectRatio(1, contentMode: .fit)
                      .drawingGroup()
                  // Stop the window shrinking to zero.
                  Spacer()
-             }
+                
+                VStack {
+                    Text(flip.initialStateTextString) // need a picker for cold or hot start
+                        .padding(.top)
+                        .padding(.bottom, 0)
+                    TextEditor(text: $flip.stateString)
+                    
+                }
+            
+            }
         }
     }
     
@@ -88,13 +92,13 @@ struct ContentView: View {
         let randomQueue = DispatchQueue.init(label: "randomQueue", qos: .userInitiated, attributes: .concurrent)
          
         //myIntegrator.integration(iterations: iterations, guesses: guesses, integrationQueue: integrationQueue )
-        flip.randomNumber(randomQueue: randomQueue, tempStr: tempString, NStr: NString, stateString: flip.stateString )
         
         stateAnimate.xMin = 0.0
-        stateAnimate.xMax = 1.0 // need it to change to 10N
+        stateAnimate.xMax = 10.0*Double(NString)!
         stateAnimate.yMin = 0.0
-        stateAnimate.yMax = 1.0 // need it to change to N
+        stateAnimate.yMax = Double(NString)!
         
+        flip.randomNumber(randomQueue: randomQueue, tempStr: tempString, NStr: NString, stateString: flip.stateString )
         
                  
     }

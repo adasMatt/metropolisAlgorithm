@@ -27,14 +27,8 @@ class StateAnimationClass: NSObject, ObservableObject {
     //@Published var errorCalc = 0.0
     //@Published var functionCheck = 0.0
     
-    // this is a core plot thing  and so far I will not use core plot
+    // this is a core plot thing that I don't need yet
     //var plotDataModel: PlotDataClass? = nil
-    //var actualValue = 0.0
-    //var integralValue = 0.0
-    //var guesses = 1
-    //var totalGuesses = 0
-    //var totalIntegral = 0.0
-    //var radius = 1.0
     
     init(withData data: Bool){
         
@@ -46,7 +40,11 @@ class StateAnimationClass: NSObject, ObservableObject {
         //outsideData = []
     }
     
-    func plotState (state: [Double], n: Double) {
+    func plotState (state: [Double], n: Double) -> Double {
+        
+        let boundingBoxCalculator = BoundingBox() ///Instantiates Class needed to calculate the area of the bounding box.
+        
+        let box = boundingBoxCalculator.calculateSurfaceArea(numberOfSides: 2, lengthOfSide1: (xMax-xMin), lengthOfSide2:(yMax-yMin), lengthOfSide3: 0.0)
         
         //var numberOfGuesses = 0.0
         //var pointsInRadius = 0.0
@@ -85,6 +83,19 @@ class StateAnimationClass: NSObject, ObservableObject {
             }
             
         }
+        //print("spin Up data: \(spinUpData)")
+        //should go up to x = 199 for N = 200? but it's only going to x = 198, when I take state.count-1 -> state.count it fails
+        spinUpData.append(contentsOf: spinUpPoints)
+        spinDownData.append(contentsOf: spinDownPoints)
+        
+        //Append the points to the arrays needed for the displays
+        //Don't attempt to draw more than 250,000 points to keep the display updating speed reasonable.
+        
+        //if ((totalGuesses < 1000001) || (insideData.count == 0)){
+        //    insideData.append(contentsOf: newInsidePoints)
+        //    outsideData.append(contentsOf: newOutsidePoints)
+        //}
+        
          
         
         /*
@@ -121,7 +132,9 @@ class StateAnimationClass: NSObject, ObservableObject {
         //}
         // actualValue = sinh(point.xPoint) - cosh(point.xPoint)
         //return integral
-        }
+        return box
+        
+    }
 
 /*
     /// calculate the value of π

@@ -251,13 +251,10 @@ class FlipRandomState: ObservableObject {
 
             modArr = countNegFunc(funcArr: modArr)
             print(modArr, counted)*/
-
             
             
             
             
-            
-
             //integralArray.append(self.calculateMonteCarloIntegral(dimensions: 1, guesses: Int32(guesses), index: index))
         //})
         

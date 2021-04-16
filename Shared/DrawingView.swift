@@ -21,10 +21,10 @@ struct drawingView: View {
         
         ZStack{
         
-            drawIntegral(drawingPoints: redLayer,xMin: xMin,xMax: xMax, yMin: yMin, yMax: yMax )
+            drawIntegral(drawingPoints: redLayer, xMin: xMin,xMax: xMax, yMin: yMin, yMax: yMax )
                 .stroke(Color.red)
             
-            drawIntegral(drawingPoints: blueLayer,xMin: xMin,xMax: xMax, yMin: yMin, yMax: yMax )
+            drawIntegral(drawingPoints: blueLayer, xMin: xMin,xMax: xMax, yMin: yMin, yMax: yMax )
                 .stroke(Color.blue)
         }
         .background(Color.white)
@@ -49,10 +49,8 @@ struct drawingView: View {
 //}
 
 
-
 struct drawIntegral: Shape {
     
-   
     let smoothness : CGFloat = 1.0
     var drawingPoints: [(xPoint: Double, yPoint: Double)]  ///Array of tuples
     var xMin : Double
@@ -60,19 +58,49 @@ struct drawIntegral: Shape {
     var yMin : Double
     var yMax : Double
     
-    
     func path(in rect: CGRect) -> Path {
         
-               
         // draw from the center of our rectangle
         // let center = CGPoint(x: rect.width / 2, y: rect.height / 2)
         // let scale = rect.width
         
-
         // Create the Path for the display
         
         var path = Path()
+        for item in drawingPoints {
+                
+            let y = -(item.yPoint-yMin)/(yMax-yMin)*Double(rect.height)+Double(rect.height)
+            let x = (item.xPoint-xMin)/(xMax-xMin)*Double(rect.width)
+            
+            // path.addRect(CGRect(x: item.xPoint*Double(scale)+Double(center.x), y: item.yPoint*Double(scale)+Double(center.y), width: 1.0 , height: 1.0))
+            path.addRect(CGRect(x: x, y: y, width: 1.0 , height: 1.0))
+                       
+        }
+
+
+        return (path)
+    }
+}
+
+/*
+struct drawIntegral: Shape {
+    
+    let smoothness : CGFloat = 1.0
+    var drawingPoints: [(xPoint: Double, yPoint: Double)]  ///Array of tuples
+    var xMin : Double
+    var xMax : Double
+    var yMin : Double
+    var yMax : Double
+    
+    func path(in rect: CGRect) -> Path {
         
+        // draw from the center of our rectangle
+        // let center = CGPoint(x: rect.width / 2, y: rect.height / 2)
+        // let scale = rect.width
+        
+        // Create the Path for the display
+        
+        var path = Path()
         for item in drawingPoints {
             
         let y = -(item.yPoint-yMin)/(yMax-yMin)*Double(rect.height)+Double(rect.height)
@@ -87,3 +115,4 @@ struct drawIntegral: Shape {
         return (path)
     }
 }
+*/
