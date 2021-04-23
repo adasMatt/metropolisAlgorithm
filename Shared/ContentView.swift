@@ -8,12 +8,13 @@
 
 // for hot start option search "initialStateTextString = "hot start"" and remove un-comment the block until picker is added
 
-// to work on animating spin flips:
-// search "plot initial state"
 
-// search "need a drawingView thingy someday"
 
-//
+
+
+// //////////////////////////////////////////////
+// search: I removed this line is that bad?
+// ////////////////////////////////////////////
 
 import SwiftUI
 
@@ -22,8 +23,7 @@ struct ContentView: View {
     //@State var initialStateString = "[1, 1, 1, ...] (array generated when program runs)"
     //@State var stateString = "[1, 1, 1, ...] (array generated when program runs)"
     
-    //@State var trialString = ""
-    @State var energyString = " "
+    //@State var energyString = " "
     @State var tempString = "1.0"
     @State var numElectronString = "20"
     
@@ -61,13 +61,13 @@ struct ContentView: View {
                 
             }
         
-            // need a drawingView thingy someday
-             //
             VStack {
                 drawingView(redLayer: $stateAnimation.spinUpData, blueLayer: $stateAnimation.spinDownData, xMin:$stateAnimation.xMin, xMax:$stateAnimation.xMax, yMin:$stateAnimation.yMin, yMax:$stateAnimation.yMax)
                     //.fixedSize(horizontal: true, vertical: true)
                     //.frame(width: 200.0, height: 20.0)
-                    .frame(minWidth: 400, idealWidth: 1800, maxWidth: 2800, minHeight: 400, idealHeight: 1800, maxHeight: 2800)
+                    
+                    // I removed this line is that bad?
+                    //.frame(minWidth: 400, idealWidth: 1800, maxWidth: 2800, minHeight: 400, idealHeight: 1800, maxHeight: 2800)
                     .padding()
                     .aspectRatio(1, contentMode: .fit)
                     .drawingGroup()
@@ -76,20 +76,13 @@ struct ContentView: View {
                  // Stop the window shrinking to zero.
                  Spacer()
                 
-                VStack {
-                    Text(flip.initialStateTextString) // need a picker for cold or hot start
-                        .padding(.top)
-                        .padding(.bottom, 0)
-                    TextEditor(text: $flip.stateString)
-                    
-                }
             }
         }
     }
     
-    func printValue(){
+    func printValue() {
         
-        for item in stateAnimation.spinUpData{
+        for item in stateAnimation.spinUpData {
             print(item)
         }
     }
@@ -104,23 +97,18 @@ struct ContentView: View {
         let randomQueue = DispatchQueue.init(label: "randomQueue", qos: .userInitiated, attributes: .concurrent)
         
         stateAnimation.xMin = 0.0
-        stateAnimation.xMax = 1000.0*Double(numElectronString)! // if I change this, I need to change the following in flipRandomState: let M = 800*N
+        //stateAnimation.xMax = 10.0*Double(numElectronString)! // if I change this, I need to change the following in flipRandomState: let M = 800*N
+        stateAnimation.xMax = 250.0
         stateAnimation.yMin = 0.0
         stateAnimation.yMax = Double(numElectronString)!
         
         
         flip.stateAnimate = self.stateAnimation
-        flip.randomNumber(randomQueue: randomQueue, tempStr: tempString, NStr: numElectronString, stateString: flip.stateString )
+        flip.randomNumber(randomQueue: randomQueue, tempStr: tempString, NStr: numElectronString )
         
-                 
     }
     
 }
-
-
-
-
-
 
 
 

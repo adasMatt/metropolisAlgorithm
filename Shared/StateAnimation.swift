@@ -5,12 +5,18 @@
 //  Created by Matt Adas on 4/2/21.
 //
 
+// /////////////////////////////////
+// search: I removed this line is that bad?
+// search: spinDownData ...for print statement
+// /////////////////////////////////
+
+
 import Foundation
 import SwiftUI
 
 class StateAnimationClass: NSObject, ObservableObject {
 
-    // x values are simply "time step" (10N) and y values are each member of the array (1 to N)
+    // x values are simply "time step" (1000N) and y values are each member of the array (1 to N)
     @Published var spinUpData = [(xPoint: Double, yPoint: Double)]()
     @Published var spinDownData = [(xPoint: Double, yPoint: Double)]()
     //@ObservedObject var presentState = FlipRandomState()
@@ -23,7 +29,7 @@ class StateAnimationClass: NSObject, ObservableObject {
     // this is a core plot thing that I don't need yet
     //var plotDataModel: PlotDataClass? = nil
     
-    init(withData data: Bool){
+    init(withData data: Bool) {
         
         super.init()
         
@@ -32,8 +38,9 @@ class StateAnimationClass: NSObject, ObservableObject {
         
         print("initialized")
         
-        spinUpData = []
-        spinDownData = []
+        // I removed this line is that bad?
+        //spinUpData = []
+        //spinDownData = []
     }
     
     func plotState (state: [Double], n: Double) {
@@ -55,24 +62,26 @@ class StateAnimationClass: NSObject, ObservableObject {
         for item in (0...state.count-1) {
             
             point.yPoint = Double(item)
-
-            if state[item] == -1.0 {          // spin up, red
-                //spinUpPoints.append(point)
-                spinUpPoints.append((point.xPoint, point.yPoint+0.25))
+            
+            if (abs(state[item] - (-1.0))) < Double(-1.0).ulp {          // spin up, red
+                spinUpPoints.append(point)
+                //spinUpPoints.append((point.xPoint, point.yPoint+0.25))
             }
             
-            else if state[item] == 1.0 {
+            else {
                 spinDownPoints.append((point.xPoint, point.yPoint))
             }
             
         }
-        //print("spin Up data: \(spinUpData)")
-        //should go up to x = 199 for N = 200? but it's only going to x = 198, when I take state.count-1 -> state.count it fails
+        
+        //print("\n\n spin down data: \(spinDownPoints), \n\n spin up data: \(spinUpPoints)")
         
         spinUpData.append(contentsOf: spinUpPoints)
         spinDownData.append(contentsOf: spinDownPoints)
         
-//        
+        
+        
+        
 //        for item in self.spinUpData {
 //        print(item)
 //        }
@@ -84,9 +93,8 @@ class StateAnimationClass: NSObject, ObservableObject {
         //    outsideData.append(contentsOf: newOutsidePoints)
         //}
         
-         
+        
         //return box
-        return
         
     }
     

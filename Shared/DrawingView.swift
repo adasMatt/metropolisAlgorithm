@@ -29,7 +29,7 @@ struct drawingView: View {
             drawIntegral(drawingPoints: blueLayer, xMin:xMin, xMax:xMax, yMin:yMin, yMax:yMax )
                 .stroke(Color.blue)
         }
-        .frame(minWidth: 400, idealWidth: 1800, maxWidth: 2800, minHeight: 400, idealHeight: 1800, maxHeight: 2800)
+        .frame(minWidth: 1000, idealWidth: 1000, maxWidth: 1000, minHeight: 600, idealHeight: 600, maxHeight: 600)
         //.fixedSize(horizontal: true, vertical: true)
         //.frame(width: 200.0, height: 20.0)
         .background(Color.gray)

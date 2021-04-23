@@ -20,7 +20,7 @@ class IsingClass: ObservableObject {
 //    var k = 1.0
     var B = 1.0                     // should be user selectable/input?
     var mu = 0.33
-    var J = 0.2
+    var J = 1.0
     var k = 1.0
     
     func energyCalculation(S: [Double], N: Int) -> Double {
