@@ -17,10 +17,11 @@ class FlipRandomState: ObservableObject {
     
     // but should I call IsingClass here or should this just be part of IsingClass, used here: "var ES = ising.energyCalculation(S: state, N: N)"
     @State var ising = IsingClass()
-    //@Binding var stateAnimate = StateAnimationClass(withData: true)
+    //@ObservedObject var stateAnimate = StateAnimationClass(withData: true)
     var stateAnimate : StateAnimationClass? = nil
     
-     /* should correspond to my randomNumber function
+    
+     /* should correspond to randomNumber function
      func integration(iterations: Int, guesses: Int, integrationQueue: DispatchQueue){
          var integralArray :[Double] = []
          start = DispatchTime.now() // starting time of the integration
@@ -82,17 +83,17 @@ class FlipRandomState: ObservableObject {
         
         //      Java ex: double[] state = new double[N]; double[] test = state;
         // populate "numbers" with N = 1,000 1's (not sure if N will ever change or be user selectable)
-        //
+        
+        // create cold start, all spin up (red layer I think)
         for _ in 0..<N {
             state.append(-1)
         }
         
-        // multiply -1 to random members of numbers array using large number "M" for effective randomizer
-        let M = 10*N       // (not sure if N will ever change or be user selectable)
-        //let M = 1000
+        // If I change this, I need to change the following in ContentView: stateAnimate.xMax = 800.0*Double(numElectronString)!
+        let M = 1000*N
+        
         // uncomment this for loop is for a "hot start" ...comment it out for a "cold start"
         /*
-         // the Text() is not changing to this in content view :(
         self.initialStateTextString = "hot start"
          for _ in 0..<M {
             // sequence to choose random member of "numbers" array and multiply by -1
@@ -100,19 +101,16 @@ class FlipRandomState: ObservableObject {
             state[nthMember] *= -1
         }*/
         
-        // are these two lines neccesary or isn't it already random enough from the for loop?
-        //let shuffledNumbers = (numbers as NSArray).shuffled() as! [Int]
-        //initialStateString = "\(shuffledNumbers)"
+        // trial energy
         var ES = ising.energyCalculation(S: state, N: N)
         
         // apply randomizer again to initial state
-        var trialRandomFlip = state
+        var trialRandomFlip = state.map { $0 } // replace all elements one at a time
         //print("begin")
         
         // Start random flipping
         // var start = DispatchTime.now() // starting time of the integration
-        
-        randomQueue.async{          // formerly integrationQueue
+        randomQueue.async {
             //DispatchQueue.concurrentPerform(iterations: Int(iterations), execute: { index in
             //DispatchQueue.concurrentPerform(iterations: 1, execute: { index in
                 for n in 0..<M {
@@ -120,9 +118,7 @@ class FlipRandomState: ObservableObject {
                     // plot initial state?
                     // keep updating state with each iteration of the loop
                     // ////////////////////////////////////////////////////////////
-                    // not a plot for now but update array at least
-                    // plotState() takes [state] and uses it to make y-points, n is the x-point for all of those y-points :)
-                    self.stateAnimate!.plotState(state: state, n: Double(n))
+                    
                     
                     // generate trial state by choosing 1 random electron at a time to flip
                     let nthMember = Int.random(in: 0..<N) // choose random electron in trial
@@ -132,12 +128,13 @@ class FlipRandomState: ObservableObject {
                     let ET = self.ising.energyCalculation(S: trialRandomFlip, N: N)
                     
                     if ET < ES {
-                        state = trialRandomFlip
+                        state = trialRandomFlip.map { $0 }
                         ES = ET
                         
                         DispatchQueue.main.async{
                             //Update Display With Started Queue Thread On the Main Thread
                             //self.stateString = "\(state)"
+                            self.stateAnimate!.plotState(state: state, n: Double(n))
                         }
                     }
                     
@@ -149,12 +146,14 @@ class FlipRandomState: ObservableObject {
                         
                         if (p >= randnum) {
                             //print("rand =", randnum, "p =", p)
-                            state = trialRandomFlip     // it changes the whole thing with every loop
+                            state = trialRandomFlip.map { $0 }     // it changes the whole thing with every loop
                             ES = ET                     // ES stays as is if probability of trial is too low
                             
                             DispatchQueue.main.async{
+                                //self.stateAnimate!.plotState(state: state, n: Double(n))
                                 //Update Display With Started Queue Thread On the Main Thread
                                 //self.stateString = "\(state)"
+                                self.stateAnimate!.plotState(state: state, n: Double(n))
                             }
                             //print(ES)
                         }
@@ -168,7 +167,7 @@ class FlipRandomState: ObservableObject {
                     //print(ES)
                     //wait(timeout: 5)
                     // delay by some microseconds
-                    //usleep(7500) // add a zero for a more readable speed at lower N
+                    usleep(75) // add a zero for a more readable speed at lower N
                     
                 }
             print("it has finished, state at equilibrium: \(state)")
@@ -191,7 +190,7 @@ class FlipRandomState: ObservableObject {
                 var modFinalArray: [Double] = []   // I mean I want to throw it out each time so I can generate a new one each time maybe?
 
                 for item in (0...N-1) {
-                    if funcArr[item] == 1 {
+                    if funcArr[item] == 1.0 {
                         counted += 1
                         //totalCount += 1         // add to global variable totalCount
                     }
@@ -215,7 +214,7 @@ class FlipRandomState: ObservableObject {
                 var modFinalArray: [Double] = []
 
                 for item in (0...N-1) {
-                    if funcArr[item] == -1 {
+                    if funcArr[item] == -1.0 {
                         counted += 1
                         //totalCount += 1
                     }

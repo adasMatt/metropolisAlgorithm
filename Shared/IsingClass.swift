@@ -20,12 +20,8 @@ class IsingClass: ObservableObject {
 //    var k = 1.0
     var B = 1.0                     // should be user selectable/input?
     var mu = 0.33
-    var J = 1.0
+    var J = 0.2
     var k = 1.0
-    
-    
-    // do I need real boltzmann constant? 1.3806505 x 10^-23 J*K^-1
-    //var T = 100000000.0             // should be user selectable/input?
     
     func energyCalculation(S: [Double], N: Int) -> Double {
         var firstTerm = 0.0
@@ -36,8 +32,11 @@ class IsingClass: ObservableObject {
             firstTerm += Double(S[i] * S[i+1])
         }
         
-        firstTerm *= -J
+        // boundary
+        firstTerm += Double(S[0] * S[N-1])
         
+        // multiply exchange energy
+        firstTerm *= -J
         
         for i in 0..<N {
             secondTerm += Double(S[i])
@@ -45,12 +44,9 @@ class IsingClass: ObservableObject {
         
         secondTerm *= -B*mu
         
-        // boundary
-        
-        
         return (firstTerm + secondTerm)
     }
-
-}
+        
+}       
 
 
