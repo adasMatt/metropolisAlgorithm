@@ -39,7 +39,7 @@ class IsingClass: ObservableObject {
         firstTerm *= -J
         
         for i in 0..<N {
-            secondTerm += Double(S[i])
+            secondTerm += Double(S[i])      // just noticed the book says I may need to calculated abs of total spin when calculating magnetization, 1st paragraph under eq 15.4
         }
         
         secondTerm *= -B*mu
